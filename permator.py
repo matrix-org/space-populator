@@ -1,6 +1,8 @@
 import logging
-import requests
 import sys
+
+import requests
+
 from room import Room
 
 user_id_to_promote = sys.argv[1]

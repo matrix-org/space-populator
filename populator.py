@@ -1,5 +1,6 @@
 import logging
 import sys
+
 from room import Room
 from space import Space
 
