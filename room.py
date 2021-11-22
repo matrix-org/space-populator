@@ -31,3 +31,16 @@ class Room:
 			logging.error("Failed to promote "+user_id_to_promote+" admin in room "+self.alias, file=sys.stderr)
 			print("Reason: "+r.text, file=sys.stderr)
 			logging.error("Reason: "+r.text)
+
+	def add_user(self, user_id_to_add, server_admin_access_token):
+		headers = {'Authorization': 'Bearer '+server_admin_access_token,'Content-Type': 'application/json'}
+		payload = {"user_id": user_id_to_add}
+		r = requests.post("https://"+self.connection_string+"/_synapse/admin/v1/join/<room_id_or_alias>", json=payload, headers=headers)
+		if r.status_code == 200:
+			print("Joined "+user_id_to_add+" to room "+self.alias)
+			logging.info("Promoted "+user_id_to_add+" to room "+self.alias)
+		else:
+			print("Failed to add "+user_id_to_promote+" to room "+self.alias, file=sys.stderr)
+			logging.error("Failed to add "+user_id_to_promote+" to room "+self.alias, file=sys.stderr)
+			print("Reason: "+r.text, file=sys.stderr)
+			logging.error("Reason: "+r.text)

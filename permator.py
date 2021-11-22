@@ -12,4 +12,5 @@ with open(sys.argv[2],'r') as f:
 
 	for line in lines:
 		room = Room(line.strip())
+		room.add_user(user_id_to_promote, server_admin_access_token)
 		room.promote_admin(user_id_to_promote, server_admin_access_token)
