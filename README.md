@@ -28,7 +28,7 @@ The steps to create a space are simple here:
 
 You need to have `git`, `python` and `pipenv` installed on your machine.
 
-1. Clone this project. Assuming you have git installed on your machine, `git clone FIXMEFIXMEFIXMEFIXMEFIXME`
+1. Clone this project. Assuming you have git installed on your machine, `git clone https://github.com/matrix-org/space-populator.git`
 1. Gather a list of all your rooms and put them in a file called `my_rooms.txt`, with one room alias per line.
 1. `cd` to the project directory, and run `pipenv install` and then `pipenv shell` so python has all the dependencies needed to execute the script
 1. Create the space in Element
