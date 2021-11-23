@@ -84,11 +84,11 @@ class Room:
             logging.info("Promoted " + user_id_to_add + " to room " + self.alias)
         else:
             print(
-                "Failed to add " + user_id_to_promote + " to room " + self.alias,
+                "Failed to add " + user_id_to_add + " to room " + self.alias,
                 file=sys.stderr,
             )
             logging.error(
-                "Failed to add " + user_id_to_promote + " to room " + self.alias,
+                "Failed to add " + user_id_to_add + " to room " + self.alias,
                 file=sys.stderr,
             )
             print("Reason: " + r.text, file=sys.stderr)
