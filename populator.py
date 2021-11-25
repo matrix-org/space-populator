@@ -13,22 +13,24 @@ parser.add_argument("-r", "--rooms", help="File containing the list of rooms to 
 parser.add_argument("-t", "--token", help="File containing the Acces Token of the person performing the actions")
 args = parser.parse_args()
 
+access_token = None
+
+if args.token is not None:
+    try:
+        file = open(args.token)
+        access_token = file.read().rstrip()
+    except IOError:
+        print("Failed to open file "+args.token+" to retrieve token, does it exist?", file=sys.stderr)
+        logging.error("Failed to open file "+args.rooms+", to retrieve token, does it exist?", file=sys.stderr)
+        sys.exit()
+else:
+    access_token = input("Access Token: ")
+
+space = Space(args.space.strip(), access_token)
+
 with open(args.rooms, "r") as f:
     lines = f.readlines()
 
-    if args.token is not None:
-        try:
-            file = open(args.rooms)
-            data = file.read().rstrip()
-        except IOError:
-            print("Failed to open file "+args.rooms+", does it exist?", file=sys.stderr)
-            logging.error("Failed to open file "+args.rooms+", does it exist?", file=sys.stderr)
-            sys.exit()
-    else:
-        access_token = input("Access Token: ")
-    
-    space = Space(args.space.strip(), access_token)
-    
     for line in lines:
         room = Room(line.strip())
         space.add_room(room)
