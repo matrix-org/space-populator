@@ -42,7 +42,7 @@ class Space:
                 "Failed to add " + room.alias + " to space " + self.id, file=sys.stderr
             )
             logging.error("Failed to add " + room.alias + " to space " + self.id)
-            print("HTTP Status: " + r.status_code, file=sys.stderr)
-            logging.error("HTTP Status: " + r.status_code)
+            print("HTTP Status: " + str(r.status_code), file=sys.stderr)
+            logging.error("HTTP Status: " + str(r.status_code))
             print("Reason: " + r.text, file=sys.stderr)
             logging.error("Reason: " + r.text)
