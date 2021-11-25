@@ -1,6 +1,6 @@
 import logging
 import sys
-
+from socket import gaierror
 import requests
 
 class Room:
@@ -92,3 +92,33 @@ class Room:
             )
             print("Reason: " + r.text, file=sys.stderr)
             logging.error("Reason: " + r.text)
+
+    def create(server_admin_access_token, alias):
+        visible_domain = alias.split(":")[1]
+        connection_string = None
+        r = requests.get(
+            "https://" + visible_domain + "/.well-known/matrix/server"
+        )
+        if r.status_code == 200:
+            connection_string = r.json()["m.server"]
+        else:
+            connection_string = visible_domain + ":443"
+
+        headers = {
+            "Authorization": "Bearer " + server_admin_access_token,
+            "Content-Type": "application/json",
+        }
+        payload = {"room_alias_name": alias.split(":")[0][1:]}
+        r = requests.post(
+            "https://"+connection_string+"/_matrix/client/r0/createRoom",
+            json=payload,
+            headers=headers
+        )
+        if r.status_code == 200:
+            logging.info("Created room "+alias)
+            print("Created room "+alias)
+        else:
+            logging.error("Could not create room "+alias)
+            logging.error("Reason: "+r.text)
+            print("Could not create room "+alias)
+            print("Reason: "+r.text)
