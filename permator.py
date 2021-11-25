@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser(description="Use Synapse admin API to join a us
 parser.add_argument("-u", "--user", help="Matrix ID of the user to add to the rooms and promote admin", required=True)
 parser.add_argument("-r", "--rooms", help="File containing the list of rooms to which the user should be added", required=True)
 parser.add_argument("-t", "--token", help="File containing the Acces Token of the Synapse administrator")
+parser.add_argument("-d", "--domain", help="Domain of the homeserver where you're administrator", required=True)
 parser.add_argument("-c", "--create", help="Create the room if it doesn't already exist", action="store_true")
 args = parser.parse_args()
 
@@ -27,7 +28,18 @@ else:
     server_admin_access_token = input("Server Admin Access Token: ")
 
 with open(args.rooms, "r") as f:
+    homeserver_domain = args.domain.strip()
     lines = f.readlines()
+    room_domains = set([])
+    for line in lines:
+        domain = line.strip().split(":")[1]
+        room_domains.add(domain)
+    
+    for domain in room_domains:
+        if domain != homeserver_domain:
+            print("I refuse to send your server administrator token to another homeserver", file=sys.stderr)
+            logging.error("I refuse to send your server administrator token to another homeserver")
+            sys.exit()
 
     for line in lines:
         alias = line.strip()
