@@ -3,7 +3,6 @@ import sys
 
 import requests
 
-
 class Room:
     def __init__(self, alias):
         self.alias = alias
@@ -75,7 +74,8 @@ class Room:
         r = requests.post(
             "https://"
             + self.connection_string
-            + "/_synapse/admin/v1/join/<room_id_or_alias>",
+            + "/_synapse/admin/v1/join/"
+            + self.alias_urlenc,
             json=payload,
             headers=headers,
         )
@@ -88,8 +88,7 @@ class Room:
                 file=sys.stderr,
             )
             logging.error(
-                "Failed to add " + user_id_to_add + " to room " + self.alias,
-                file=sys.stderr,
+                "Failed to add " + user_id_to_add + " to room " + self.alias
             )
             print("Reason: " + r.text, file=sys.stderr)
             logging.error("Reason: " + r.text)
